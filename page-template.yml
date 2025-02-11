@@ -1,6 +1,6 @@
 bootstrap.Page:
   cdn: true
-  theme: Cerulean
+  theme: Flatly
   name: Application Page Template
   language: EN
   stylesheets: 
