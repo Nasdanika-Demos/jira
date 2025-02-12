@@ -8,9 +8,21 @@ import org.nasdanika.demos.jira.JiraDemo;
 public class JiraTests {
 	
 	@Test
-	public void testJira() throws Exception {
+	public void testIssueClient() throws Exception {
 		JiraDemo jiraDemo = new JiraDemo();
 		jiraDemo.demoIssueClient();
+	}
+	
+	@Test
+	public void testIssueClientWithInterceptor() throws Exception {
+		JiraDemo jiraDemo = new JiraDemo();
+		jiraDemo.demoIssueClientWithInterceptor();
+	}
+	
+	@Test
+	public void testIssueClientWithRateLimit() throws Exception {
+		JiraDemo jiraDemo = new JiraDemo();
+		jiraDemo.demoIssueClientWithRateLimit();
 	}
 	
 	@Test
@@ -18,7 +30,6 @@ public class JiraTests {
 		JiraDemo jiraDemo = new JiraDemo();
 		jiraDemo.createResource();
 		jiraDemo.readResource();
-	}
-	
+	}	
 	
 }

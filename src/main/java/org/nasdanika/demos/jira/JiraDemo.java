@@ -3,6 +3,7 @@ package org.nasdanika.demos.jira;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -13,9 +14,14 @@ import org.nasdanika.capability.emf.ResourceSetRequirement;
 import org.nasdanika.common.PrintStreamProgressMonitor;
 import org.nasdanika.common.ProgressMonitor;
 import org.nasdanika.models.jira.JiraFactory;
+import org.nasdanika.models.jira.client.AsynchronousInterceptingJiraRestClientFactory;
+import org.nasdanika.models.jira.client.AsynchronousRateLimitingJiraRestClientFactory;
 
+import com.atlassian.httpclient.api.Request;
+import com.atlassian.httpclient.api.Response;
 import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
+import com.atlassian.jira.rest.client.api.JiraRestClientFactory;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 
@@ -26,7 +32,7 @@ public class JiraDemo {
 	private static final String JIRA_MODEL_PATH = "target/jira-model.xmi";
 	
 	public void demoIssueClient() throws Exception {
-		AsynchronousJiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
+		JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
 		URI jirURI = new URI("https://nasdanika.atlassian.net");
 		try (JiraRestClient client = factory.createWithBasicHttpAuthentication(
 				jirURI, 
@@ -39,7 +45,53 @@ public class JiraDemo {
 			System.out.println(issue);
 		}
 	}
-
+		
+	public void demoIssueClientWithInterceptor() throws Exception {
+		JiraRestClientFactory factory = new AsynchronousInterceptingJiraRestClientFactory() {
+			
+			@Override
+			protected void onRequest(Request request) {
+				System.out.println("Request: " + request);
+			}
+			
+			@Override
+			protected void onSuccess(Request request, Response response) {
+				System.out.println("Success: " + response);
+				for (Entry<String, String> he: response.getHeaders().entrySet()) {
+					System.out.println("\t" + he.getKey() + ": " + he.getValue());
+				}
+			}
+			
+		};
+		
+		URI jirURI = new URI("https://nasdanika.atlassian.net");
+		try (JiraRestClient client = factory.createWithBasicHttpAuthentication(
+				jirURI, 
+				System.getenv("JIRA_USER"), 
+				System.getenv("JIRA_API_TOKEN"))) {
+			
+			IssueRestClient issueClient = client.getIssueClient();
+			Promise<Issue> issuePromise = issueClient.getIssue("NSD-164");
+			Issue issue = issuePromise.claim();
+			System.out.println(issue);
+		}
+	}	
+	
+	public void demoIssueClientWithRateLimit() throws Exception {
+		JiraRestClientFactory factory = new AsynchronousRateLimitingJiraRestClientFactory(5);
+		
+		URI jirURI = new URI("https://nasdanika.atlassian.net");
+		try (JiraRestClient client = factory.createWithBasicHttpAuthentication(
+				jirURI, 
+				System.getenv("JIRA_USER"), 
+				System.getenv("JIRA_API_TOKEN"))) {
+			
+			IssueRestClient issueClient = client.getIssueClient();
+			Promise<Issue> issuePromise = issueClient.getIssue("NSD-164");
+			Issue issue = issuePromise.claim();
+			System.out.println(issue);
+		}
+	}	
 	
 	public void createResource() throws IOException {
 		// Creating a model
