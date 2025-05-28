@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nasdanika.demos</groupId>
-	<version>2025.4.0</version>
+	<version>2025.5.0</version>
 	<artifactId>jira-demo</artifactId>
 	<packaging>jar</packaging>
 	<name>Jira Demo</name>
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>org.nasdanika.models.jira</groupId>
 			<artifactId>client</artifactId>
-			<version>2025.4.0</version>
+			<version>2025.5.0</version>
 		</dependency>
 	
 		<dependency>
