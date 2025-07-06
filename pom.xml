@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nasdanika.demos</groupId>
-	<version>2025.5.0</version>
+	<version>2025.6.0</version>
 	<artifactId>jira-demo</artifactId>
 	<packaging>jar</packaging>
 	<name>Jira Demo</name>
@@ -22,12 +22,12 @@
 		        <plugin>
 		            <groupId>org.apache.maven.plugins</groupId>
 		            <artifactId>maven-surefire-plugin</artifactId>
-		            <version>3.5.2</version>
+		            <version>3.5.3</version>
 		            <dependencies>
 		                <dependency>
 		                    <groupId>org.junit.jupiter</groupId>
 		                    <artifactId>junit-jupiter-engine</artifactId>
-		                    <version>5.11.4</version>
+		                    <version>5.12.1</version>
 		                </dependency>
 		            </dependencies>
 		        </plugin>
@@ -55,19 +55,19 @@
 		<dependency>
 			<groupId>org.nasdanika.models.jira</groupId>
 			<artifactId>client</artifactId>
-			<version>2025.5.0</version>
+			<version>2025.6.0</version>
 		</dependency>
 	
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-api</artifactId>
-		    <version>5.11.4</version>
+		    <version>5.12.1</version>
 		    <scope>test</scope>
 		</dependency>		
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-engine</artifactId>
-		    <version>5.11.4</version>
+		    <version>5.12.1</version>
 		    <scope>test</scope>
 		</dependency>		
 	</dependencies>
